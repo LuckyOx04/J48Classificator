@@ -13,8 +13,15 @@ public class TrainingAlgorithm
         return sum;
     }
 
-    private Dictionary<string, int> GetNumberOfValues(string[] values)
+    private Dictionary<string, int> GetNumberOfValues(Dictionary<string, List<string>> data, string field)
     {
-        throw new NotImplementedException();
+        Dictionary<string, int> numberOfValuesInField = new Dictionary<string, int>();
+        string[] fieldValues = data[field].ToArray();
+        foreach (var value in fieldValues)
+        {
+            numberOfValuesInField[field]++;
+        }
+        
+        return numberOfValuesInField;
     }
 }
