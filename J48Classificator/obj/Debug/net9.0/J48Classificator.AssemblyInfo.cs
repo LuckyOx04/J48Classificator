@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("J48Classificator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cf657f7778fcef733072886c14523017d2010e7e")]
 [assembly: System.Reflection.AssemblyProductAttribute("J48Classificator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("J48Classificator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

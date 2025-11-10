@@ -8,14 +8,13 @@ public class DataHelper
 
         string[][] data = File.ReadAllLines(fileName).Select(x => x.Split(",")).ToArray();
 
-        foreach (var row in data)
+        for (int i = 0; i < data[0].Length; i++)
         {
-            foreach (var column in row)
+            result[data[0][i]] = new List<string>();
+            for (int j = 1; j < data.Length; j++)
             {
-                Console.Write($"{column},");
+                result[data[0][i]].Add(data[j][i]);
             }
-
-            Console.WriteLine();
         }
 
         return result;
