@@ -15,6 +15,6 @@ public class Algorithm
 
     private Dictionary<string, int> GetNumberOfValues(string[] values)
     {
-        
+        throw new NotImplementedException();
     }
 }
