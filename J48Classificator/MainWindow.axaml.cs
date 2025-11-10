@@ -16,6 +16,9 @@ public partial class MainWindow : Window
         {
             Console.WriteLine(key);
         }
-        Console.WriteLine(TrainingAlgorithm.GetClassFieldEntropy(data, "Play"));
+
+        TrainingAlgorithm.ClassField = "Play";
+        TrainingAlgorithm.Data = data;
+        Console.WriteLine(TrainingAlgorithm.GetInformationGainForField("Outlook"));
     }
 }
