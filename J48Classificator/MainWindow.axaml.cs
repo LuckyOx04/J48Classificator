@@ -19,6 +19,6 @@ public partial class MainWindow : Window
 
         TrainingAlgorithm.ClassField = "Play";
         TrainingAlgorithm.Data = data;
-        Console.WriteLine(TrainingAlgorithm.GetInformationGainForField("Outlook"));
+        Console.WriteLine(TrainingAlgorithm.GetInformationGainForField("Windy"));
     }
 }
