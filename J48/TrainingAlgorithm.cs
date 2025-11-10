@@ -1,6 +1,6 @@
 namespace J48;
 
-public class Algorithm
+public class TrainingAlgorithm
 {
     private double Entropy(params double[] values)
     {
