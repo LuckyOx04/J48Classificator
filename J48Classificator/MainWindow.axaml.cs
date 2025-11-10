@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Avalonia.Controls;
 using J48;
 
@@ -9,6 +11,11 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        DataHelper.CsvToDictionatyOfColumns("./temp-data.csv");
+        Dictionary<string, List<string>> data = DataHelper.CsvToDictionatyOfColumns("./temp-data.csv");
+        foreach (var key in data.Keys)
+        {
+            Console.WriteLine(key);
+        }
+        Console.WriteLine(TrainingAlgorithm.GetClassFieldEntropy(data, "Play"));
     }
 }
