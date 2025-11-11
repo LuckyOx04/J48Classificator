@@ -1,6 +1,6 @@
 namespace J48Implementation;
 
-public class TrainingAlgorithm
+public class FieldEntropyAlgorithm
 {
     public static string ClassField { get; set; } = "";
     public static Dictionary<string, List<string>> Data { get; set; } = new Dictionary<string, List<string>>();
