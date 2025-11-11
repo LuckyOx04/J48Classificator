@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J48Classificator", "J48Classificator\J48Classificator.csproj", "{3B57D4A9-F956-4091-806A-27D1BDC6F393}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J48UserInterface", "J48UserInterface\J48UserInterface.csproj", "{3B57D4A9-F956-4091-806A-27D1BDC6F393}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J48", "J48\J48.csproj", "{72F26371-6961-485E-A46A-EFFE4728FEFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J48Implementation", "J48Implementation\J48Implementation.csproj", "{72F26371-6961-485E-A46A-EFFE4728FEFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
