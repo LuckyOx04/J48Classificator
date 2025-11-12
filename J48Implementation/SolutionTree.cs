@@ -5,14 +5,15 @@ public class SolutionTree
     public class Node
     {
         public string FieldName { get; set; }
-        public List<string> ClassValues { get; set; }
+        public List<int> ValuesPositions { get; set; }
         public Dictionary<string, Node> Children { get; set; }
         private bool _hasParent = false;
         public bool HasParent => _hasParent;
 
-        public Node(string fieldName, params string[] classValues)
+        public Node(string fieldName)
         {
             this.Children = new Dictionary<string, Node>();
+            this.ValuesPositions = new List<int>();
             this.FieldName = fieldName;
         }
 
@@ -54,13 +55,13 @@ public class SolutionTree
     private Node _root;
     public Node Root => _root;
     
-    public SolutionTree(string fieldName, params string[] classValues)
+    public SolutionTree(string fieldName)
     {
         if (string.IsNullOrEmpty(fieldName))
         {
             throw new ArgumentNullException(nameof(fieldName), "Field name cannot be null or empty");
         }
         
-        this._root = new Node(fieldName, classValues);
+        this._root = new Node(fieldName);
     }
 }

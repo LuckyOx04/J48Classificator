@@ -17,8 +17,7 @@ public partial class MainWindow : Window
             Console.WriteLine(key);
         }
 
-        FieldEntropyAlgorithm.ClassField = "Play";
-        FieldEntropyAlgorithm.Data = data;
-        Console.WriteLine(FieldEntropyAlgorithm.GetInformationGainForField("Windy"));
+        FieldEntropyAlgorithm fieldEntropyAlgorithm = new FieldEntropyAlgorithm(data, "Play");
+        Console.WriteLine(fieldEntropyAlgorithm.GetInformationGainForField("Windy"));
     }
 }
