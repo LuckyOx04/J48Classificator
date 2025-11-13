@@ -9,11 +9,20 @@ public class SolutionTree
         public Dictionary<string, Node> Children { get; set; }
         private bool _hasParent = false;
         public bool HasParent => _hasParent;
+        
+        public bool IsLeaf => Children.Count == 0;
 
         public Node(string fieldName)
         {
             this.Children = new Dictionary<string, Node>();
             this.ValuesPositions = new List<int>();
+            this.FieldName = fieldName;
+        }
+
+        public Node(string fieldName, List<int> valuesPositions)
+        {
+            this.Children = new Dictionary<string, Node>();
+            this.ValuesPositions = new List<int>(valuesPositions);
             this.FieldName = fieldName;
         }
 
