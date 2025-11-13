@@ -7,7 +7,7 @@ public class SolutionTree
         public string FieldName { get; set; }
         public List<int> ValuesPositions { get; set; }
         public Dictionary<string, Node> Children { get; set; }
-        private bool _hasParent = false;
+        private bool _hasParent;
         public bool HasParent => _hasParent;
         
         public bool IsLeaf => Children.Count == 0;
@@ -72,5 +72,20 @@ public class SolutionTree
         }
         
         this._root = new Node(fieldName);
+    }
+
+    public void PrintTreeDfs(Node? node, string padding)
+    {
+        if (node == null)
+        {
+            return;
+        }
+
+        Console.WriteLine($"{padding}{node.FieldName}");
+        
+        foreach (var key in node.Children.Keys)
+        {
+            PrintTreeDfs(node.Children[key], $"{padding}    ");
+        }
     }
 }

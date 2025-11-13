@@ -18,6 +18,11 @@ public partial class MainWindow : Window
         }
 
         FieldEntropyAlgorithm fieldEntropyAlgorithm = new FieldEntropyAlgorithm(data, "Play");
-        Console.WriteLine(fieldEntropyAlgorithm.GetInformationGainForField("Windy"));
+        Console.WriteLine(fieldEntropyAlgorithm.GetInformationGainForField("Play"));
+        
+        SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(data, "Play");
+        SolutionTree solutionTree = solutionTreeBuilder.Build();
+        solutionTree.PrintTreeDfs(solutionTree.Root, "");
+        
     }
 }

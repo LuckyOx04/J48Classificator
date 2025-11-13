@@ -31,20 +31,20 @@ public class SolutionTreeBuilder
         return maxEntropyField;
     }
     
-    private Dictionary<string, List<int>> GetValuesPositions(List<string> values, List<int> positions)
+    private Dictionary<string, List<int>> GetValuesPositions(List<string> values)
     {
         Dictionary<string, List<int>> valuesPositions = new Dictionary<string, List<int>>();
-        List<string> subListOfValues = positions.Select(i => values[i]).ToList();
-        for (int i = 0; i < subListOfValues.Count; i++)
+        int currentPosition = 0;
+        foreach (var value in values)
         {
-            if (!valuesPositions.ContainsKey(values[i]))
+            if (!valuesPositions.ContainsKey(value))
             {
-                valuesPositions.Add(subListOfValues[i], new List<int>());
-                valuesPositions[values[i]].Add(positions[i]);
+                valuesPositions.Add(value, new List<int>());
+                valuesPositions[value].Add(currentPosition++);
             }
             else
             {
-                valuesPositions[values[i]].Add(positions[i]);
+                valuesPositions[value].Add(currentPosition++);
             }
         }
         
@@ -67,18 +67,23 @@ public class SolutionTreeBuilder
         return newData;
     }
 
-    private Dictionary<string, List<string>> RemoveDataRows(Dictionary<string, List<string>> data,
+    private Dictionary<string, List<string>> KeepDataRows(Dictionary<string, List<string>> data,
         List<int> rowPositionsToKeep)
     {
-        Dictionary<string, List<string>> newData = new Dictionary<string, List<string>>(data);
-        foreach (var key in newData.Keys)
+        Dictionary<string, List<string>> newData = new Dictionary<string, List<string>>();
+        
+        foreach (var key in data.Keys)
         {
-            int listCount = newData[key].Count;
-            for (int i = 0; i < listCount; i++)
+            foreach (var position in rowPositionsToKeep)
             {
-                if (!rowPositionsToKeep.Contains(i))
+                if (!newData.ContainsKey(key))
                 {
-                    newData[key].RemoveAt(i);
+                    newData.Add(key, new List<string>());
+                    newData[key].Add(data[key][position]);
+                }
+                else
+                {
+                    newData[key].Add(data[key][position]);
                 }
             }
         }
@@ -88,18 +93,21 @@ public class SolutionTreeBuilder
 
     private void BuildTree(SolutionTree.Node node, Dictionary<string, List<string>> data)
     {
-        if (node.ValuesPositions.Select(i => data[_classField][i]).Distinct().Count() > 1)
+        if (data[_classField].Distinct().Count() <= 1)
         {
             return;
         }
-        
-        Dictionary<string, List<string>> newData = RemoveDataField(data, node.FieldName);
-        newData = RemoveDataRows(newData, node.ValuesPositions);
-        string maxEntropyField = GetMaxFieldEntropy(newData);
-        Dictionary<string, List<int>> newValuesPositions = GetValuesPositions(newData[maxEntropyField],
-            node.ValuesPositions);
+
+        string maxEntropyField = "";
+        Dictionary<string, List<string>> newData;
+        Dictionary<string, List<int>> newValuesPositions = GetValuesPositions(data[node.FieldName]);
         foreach (var key in newValuesPositions.Keys)
         {
+            newData = RemoveDataField(data, node.FieldName);
+            newData = KeepDataRows(newData, newValuesPositions[key]);
+            
+            maxEntropyField = GetMaxFieldEntropy(newData);
+            
             SolutionTree.Node newNode = new SolutionTree.Node(maxEntropyField, newValuesPositions[key]);
             node.AddChild(key, newNode);
             BuildTree(newNode, newData);
