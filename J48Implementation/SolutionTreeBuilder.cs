@@ -2,9 +2,9 @@ namespace J48Implementation;
 
 public class SolutionTreeBuilder
 {
-    private FieldEntropyAlgorithm _fieldEntropyAlgorithm;
-    private Dictionary<string, List<string>> _data;
-    private string _classField;
+    private readonly FieldEntropyAlgorithm _fieldEntropyAlgorithm;
+    private readonly Dictionary<string, List<string>> _data;
+    private readonly string _classField;
 
     public SolutionTreeBuilder(Dictionary<string, List<string>> data, string classField)
     {
@@ -17,7 +17,8 @@ public class SolutionTreeBuilder
     {
         double maxEntropy = Double.MinValue;
         string maxEntropyField = "";
-        double currentEntropy = 0;
+        double currentEntropy;
+        _fieldEntropyAlgorithm.Data = data;
         foreach (var key in data.Keys.Where(key => key != _classField))
         {
             currentEntropy = _fieldEntropyAlgorithm.GetInformationGainForField(key);
@@ -93,11 +94,6 @@ public class SolutionTreeBuilder
 
     private void BuildTree(SolutionTree.Node node, Dictionary<string, List<string>> data)
     {
-        if (data[_classField].Distinct().Count() <= 1)
-        {
-            return;
-        }
-
         string maxEntropyField = "";
         Dictionary<string, List<string>> newData;
         Dictionary<string, List<int>> newValuesPositions = GetValuesPositions(data[node.FieldName]);
@@ -105,10 +101,18 @@ public class SolutionTreeBuilder
         {
             newData = RemoveDataField(data, node.FieldName);
             newData = KeepDataRows(newData, newValuesPositions[key]);
+
+            if (newData[_classField].Distinct().Count() <= 1)
+            {
+                SolutionTree.Node answerNode = new SolutionTree.Node("");
+                answerNode.ClassValueAnswer = newData[_classField].FirstOrDefault();
+                node.AddChild(key, answerNode);
+                continue;
+            }
             
             maxEntropyField = GetMaxFieldEntropy(newData);
             
-            SolutionTree.Node newNode = new SolutionTree.Node(maxEntropyField, newValuesPositions[key]);
+            SolutionTree.Node newNode = new SolutionTree.Node(maxEntropyField);
             node.AddChild(key, newNode);
             BuildTree(newNode, newData);
         }
@@ -118,8 +122,6 @@ public class SolutionTreeBuilder
     {
         string maxEntropyField = GetMaxFieldEntropy(_data);
         SolutionTree solutionTree = new SolutionTree(maxEntropyField);
-        int[] indexes = Enumerable.Range(0, _data[maxEntropyField].Count).ToArray();
-        solutionTree.Root.ValuesPositions = new List<int>(indexes);
         return solutionTree;
     }
 

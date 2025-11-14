@@ -5,6 +5,12 @@ public class FieldEntropyAlgorithm
     private string _classField;
     private Dictionary<string, List<string>> _data;
 
+    public Dictionary<string, List<string>> Data
+    {
+        get => _data;
+        set => _data = value;
+    }
+
     public FieldEntropyAlgorithm(Dictionary<string, List<string>> data, string classField)
     {
         this._classField =  classField;

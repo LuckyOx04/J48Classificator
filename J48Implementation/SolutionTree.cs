@@ -5,24 +5,24 @@ public class SolutionTree
     public class Node
     {
         public string FieldName { get; set; }
-        public List<int> ValuesPositions { get; set; }
+        public string? ClassValueAnswer { get; set; }
         public Dictionary<string, Node> Children { get; set; }
         private bool _hasParent;
-        public bool HasParent => _hasParent;
         
         public bool IsLeaf => Children.Count == 0;
 
         public Node(string fieldName)
         {
             this.Children = new Dictionary<string, Node>();
-            this.ValuesPositions = new List<int>();
+            this.ClassValueAnswer = string.Empty;
             this.FieldName = fieldName;
+            this._hasParent = false;
         }
 
-        public Node(string fieldName, List<int> valuesPositions)
+        public Node(string fieldName, string classValueAnswer)
         {
             this.Children = new Dictionary<string, Node>();
-            this.ValuesPositions = new List<int>(valuesPositions);
+            this.ClassValueAnswer = classValueAnswer;
             this.FieldName = fieldName;
         }
 
@@ -33,7 +33,7 @@ public class SolutionTree
                 throw new ArgumentNullException(nameof(child), "Child cannot be null");
             }
 
-            if (child.HasParent)
+            if (child._hasParent)
             {
                 throw new ArgumentException("This node already has a parent");
             }
@@ -81,11 +81,25 @@ public class SolutionTree
             return;
         }
 
-        Console.WriteLine($"{padding}{node.FieldName}");
-        
-        foreach (var key in node.Children.Keys)
+        if (node.IsLeaf)
         {
-            PrintTreeDfs(node.Children[key], $"{padding}    ");
+            Console.WriteLine($"{padding}{node.ClassValueAnswer}");
+        }
+        else
+        {
+            Console.WriteLine($"{padding}{node.FieldName}");
+            Console.Write($"{padding}Branches: ");
+            foreach (var branch in node.Children.Keys)
+            {
+                Console.Write($"{branch}, ");
+            }
+            Console.WriteLine();
+        }
+
+        foreach (var branch in node.Children.Keys)
+        {
+            Console.WriteLine($"{padding}{branch}:");
+            PrintTreeDfs(node.Children[branch], $"{padding}    ");
         }
     }
 }
