@@ -11,7 +11,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        Dictionary<string, List<string>> data = DataHelper.CsvToDictionatyOfColumns("./temp-data.csv");
+        Dictionary<string, List<string>> data = DataHelper.GetTrainingData("./temp-data.csv");
         foreach (var key in data.Keys)
         {
             Console.WriteLine(key);

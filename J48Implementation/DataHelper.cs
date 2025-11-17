@@ -1,24 +1,31 @@
 namespace J48Implementation;
 
-public class DataHelper
+public static class DataHelper
 {
-    public static Dictionary<string, List<string>> CsvToDictionatyOfColumns(string fileName)
+    public static Dictionary<string, List<string>> GetTrainingData(string fileName)
     {
         Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
 
-        string[][] data = File.ReadAllLines(fileName).Select(x => x.Split(",")).ToArray();
+        List<List<string>> data = File.ReadAllLines(fileName).Select(line => line.Split(",")
+            .Select(value => value.ToLower()).ToList()).ToList();
 
-        for (int i = 0; i < data[0].Length; i++)
+        foreach (var header in data[0])
         {
-            result[data[0][i]] = new List<string>();
-            for (int j = 1; j < data.Length; j++)
+            result[header] = new List<string>();
+            for (int j = 1; j < data.Count; j++)
             {
-                result[data[0][i]].Add(data[j][i]);
+                int index = data[0].IndexOf(header);
+                result[header].Add(data[j][index]);
             }
         }
 
         return result;
     }
-    
-    
+
+    public static List<List<string>> GetTestingData(string fileName)
+    {
+        List<List<string>> result = File.ReadAllLines(fileName).Select(line => line.Split(",")
+            .Select(value => value.ToLower()).ToList()).ToList();
+        return result;
+    }
 }
