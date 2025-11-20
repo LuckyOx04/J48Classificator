@@ -3,19 +3,20 @@ namespace J48Implementation;
 public class FieldEntropyAlgorithm
 {
     private readonly string _classField;
-    private Dictionary<string, List<string>> _data;
+    private Dictionary<string, List<string>> _trainingData;
 
-    public Dictionary<string, List<string>> Data
+    public Dictionary<string, List<string>> TrainingData
     {
-        get => _data;
-        set => _data = value;
+        get => _trainingData;
+        set => _trainingData = value;
     }
 
-    public FieldEntropyAlgorithm(Dictionary<string, List<string>> data, string classField)
+    public FieldEntropyAlgorithm(Dictionary<string, List<string>> trainingData, string classField)
     {
         this._classField =  classField;
-        this._data = data;
+        this._trainingData = trainingData;
     }
+    
     private double Entropy(params double[] values)
     {
         double sum = 0;
@@ -32,14 +33,8 @@ public class FieldEntropyAlgorithm
         Dictionary<string, int> result = new Dictionary<string, int>();
         foreach (var value in values)
         {
-            if (!result.ContainsKey(value))
-            {
-                result.Add(value, 1);
-            }
-            else
-            {
+                result.TryAdd(value, 1);
                 result[value]++;
-            }
         }
         
         return result;
@@ -61,7 +56,7 @@ public class FieldEntropyAlgorithm
     {
         Dictionary<string, List<string>> classValuesForRegularValues = new Dictionary<string, List<string>>();
         int currentIndex = 0;
-        List<string> classValues = _data[_classField];
+        List<string> classValues = _trainingData[_classField];
         foreach (var value in values)
         {
             if (!classValuesForRegularValues.ContainsKey(value))
@@ -87,15 +82,13 @@ public class FieldEntropyAlgorithm
     public double GetInformationGainForField(string field)
     {
         double sum = 0;
-        List<string> fieldValues = _data[field];
-        List<string> classValues = _data[_classField];
+        List<string> fieldValues = _trainingData[field];
+        List<string> classValues = _trainingData[_classField];
         Dictionary<string, List<string>> groupedFieldValues = GetClassValuesForRegularValues(fieldValues);
-        double weight = 0;
-        double fieldValuesEntropy = 0;
         foreach (var key in groupedFieldValues.Keys)
         {
-            weight = groupedFieldValues[key].Count/(double)classValues.Count;
-            fieldValuesEntropy = GetEntropyForListOfValues(groupedFieldValues[key]);
+            double weight = groupedFieldValues[key].Count/(double)classValues.Count;
+            double fieldValuesEntropy = GetEntropyForListOfValues(groupedFieldValues[key]);
             sum += weight * fieldValuesEntropy;
         }
         

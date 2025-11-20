@@ -17,11 +17,10 @@ public class SolutionTreeBuilder
     {
         double maxEntropy = Double.MinValue;
         string maxEntropyField = "";
-        double currentEntropy;
-        _fieldEntropyAlgorithm.Data = data;
+        _fieldEntropyAlgorithm.TrainingData = data;
         foreach (var key in data.Keys.Where(key => key != _classField))
         {
-            currentEntropy = _fieldEntropyAlgorithm.GetInformationGainForField(key);
+            double currentEntropy = _fieldEntropyAlgorithm.GetInformationGainForField(key);
             if (currentEntropy > maxEntropy)
             {
                 maxEntropy = currentEntropy;
@@ -92,23 +91,22 @@ public class SolutionTreeBuilder
         return newData;
     }
 
-    private string GetMaxApearances(List<string> values)
+    private string GetMaxAppearances(List<string> values)
     {
         Dictionary<string, List<int>> valuesPositions = GetValuesPositions(values);
-        string maxApearancesValue = string.Empty;
-        int maxApearances =  int.MinValue;
-        int currentApearances = 0;
+        string maxAppearancesValue = string.Empty;
+        int maxAppearances =  int.MinValue;
         foreach (var key in valuesPositions.Keys)
         {
-            currentApearances = valuesPositions[key].Count;
-            if (currentApearances > maxApearances)
+            int currentAppearances = valuesPositions[key].Count;
+            if (currentAppearances > maxAppearances)
             {
-                maxApearances = currentApearances;
-                maxApearancesValue = key;
+                maxAppearances = currentAppearances;
+                maxAppearancesValue = key;
             }
         }
         
-        return maxApearancesValue;
+        return maxAppearancesValue;
     }
 
     private void BuildTree(SolutionTree.Node node, Dictionary<string, List<string>> data)
@@ -121,16 +119,14 @@ public class SolutionTreeBuilder
         if (data[node.FieldName].Distinct().Count() <= 1)
         {
             node.FieldName = string.Empty;
-            node.ClassValueAnswer = GetMaxApearances(data[_classField]);
+            node.ClassValueAnswer = GetMaxAppearances(data[_classField]);
             return;
         }
         
-        string maxEntropyField = "";
-        Dictionary<string, List<string>> newData;
         Dictionary<string, List<int>> newValuesPositions = GetValuesPositions(data[node.FieldName]);
         foreach (var key in newValuesPositions.Keys)
         {
-            newData = RemoveDataField(data, node.FieldName);
+            Dictionary<string, List<string>> newData = RemoveDataField(data, node.FieldName);
             newData = KeepDataRows(newData, newValuesPositions[key]);
             
             if (newData[_classField].Distinct().Count() <= 1)
@@ -141,7 +137,7 @@ public class SolutionTreeBuilder
                 continue;
             }
             
-            maxEntropyField = GetMaxFieldEntropy(newData);
+            string maxEntropyField = GetMaxFieldEntropy(newData);
             
             SolutionTree.Node newNode = new SolutionTree.Node(maxEntropyField);
             node.AddChild(key, newNode);

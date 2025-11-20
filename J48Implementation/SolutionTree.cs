@@ -36,10 +36,9 @@ public class SolutionTree
             if (child._hasParent)
             {
                 throw new ArgumentException("This node already has a parent");
-            }
-            if (!this.Children.ContainsKey(branchName))
+            } 
+            if (this.Children.TryAdd(branchName, child))
             {
-                this.Children.Add(branchName, child);
                 this._hasParent = true;
             }
             else
@@ -50,9 +49,10 @@ public class SolutionTree
 
         public Node GetChild(string branchName)
         {
-            if (this.Children.ContainsKey(branchName))
+            Node? result = null;
+            if (this.Children.TryGetValue(branchName, out result))
             {
-                return this.Children[branchName];
+                return result;
             }
             else
             {
@@ -61,7 +61,7 @@ public class SolutionTree
         }
     }
     
-    private Node _root;
+    private readonly Node _root;
     public Node Root => _root;
     
     public SolutionTree(string fieldName)
