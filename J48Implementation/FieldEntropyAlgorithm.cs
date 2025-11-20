@@ -2,7 +2,7 @@ namespace J48Implementation;
 
 public class FieldEntropyAlgorithm
 {
-    private string _classField;
+    private readonly string _classField;
     private Dictionary<string, List<string>> _data;
 
     public Dictionary<string, List<string>> Data

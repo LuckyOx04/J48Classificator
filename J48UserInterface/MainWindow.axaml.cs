@@ -17,10 +17,9 @@ public partial class MainWindow : Window
             Console.WriteLine(key);
         }
 
-        FieldEntropyAlgorithm fieldEntropyAlgorithm = new FieldEntropyAlgorithm(data, "Play");
-        Console.WriteLine(fieldEntropyAlgorithm.GetInformationGainForField("Play"));
+        string classField = "temperature";
         
-        SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(data, "Play");
+        SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(data, classField);
         SolutionTree solutionTree = solutionTreeBuilder.Build();
         solutionTree.PrintTreeDfs(solutionTree.Root, "");
         

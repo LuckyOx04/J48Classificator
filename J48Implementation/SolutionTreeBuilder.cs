@@ -92,8 +92,39 @@ public class SolutionTreeBuilder
         return newData;
     }
 
+    private string GetMaxApearances(List<string> values)
+    {
+        Dictionary<string, List<int>> valuesPositions = GetValuesPositions(values);
+        string maxApearancesValue = string.Empty;
+        int maxApearances =  int.MinValue;
+        int currentApearances = 0;
+        foreach (var key in valuesPositions.Keys)
+        {
+            currentApearances = valuesPositions[key].Count;
+            if (currentApearances > maxApearances)
+            {
+                maxApearances = currentApearances;
+                maxApearancesValue = key;
+            }
+        }
+        
+        return maxApearancesValue;
+    }
+
     private void BuildTree(SolutionTree.Node node, Dictionary<string, List<string>> data)
     {
+        if (node.FieldName == string.Empty)
+        {
+            return;
+        }
+
+        if (data[node.FieldName].Distinct().Count() <= 1)
+        {
+            node.FieldName = string.Empty;
+            node.ClassValueAnswer = GetMaxApearances(data[_classField]);
+            return;
+        }
+        
         string maxEntropyField = "";
         Dictionary<string, List<string>> newData;
         Dictionary<string, List<int>> newValuesPositions = GetValuesPositions(data[node.FieldName]);
@@ -101,7 +132,7 @@ public class SolutionTreeBuilder
         {
             newData = RemoveDataField(data, node.FieldName);
             newData = KeepDataRows(newData, newValuesPositions[key]);
-
+            
             if (newData[_classField].Distinct().Count() <= 1)
             {
                 SolutionTree.Node answerNode = new SolutionTree.Node("");

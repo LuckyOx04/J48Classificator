@@ -73,7 +73,7 @@ public class SolutionTree
         
         this._root = new Node(fieldName);
     }
-
+//  ╗ ║ ╟ ═
     public void PrintTreeDfs(Node? node, string padding)
     {
         if (node == null)
@@ -87,7 +87,7 @@ public class SolutionTree
         }
         else
         {
-            Console.WriteLine($"{padding}{node.FieldName}");
+            Console.WriteLine($"{padding}{node.FieldName}╗");
             Console.Write($"{padding}Branches: ");
             foreach (var branch in node.Children.Keys)
             {
