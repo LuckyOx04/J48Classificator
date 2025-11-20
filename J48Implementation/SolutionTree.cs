@@ -76,6 +76,7 @@ public class SolutionTree
 //  ╗ ║ ╟ ═
     public void PrintTreeDfs(Node? node, string padding)
     {
+        
         if (node == null)
         {
             return;
@@ -83,23 +84,22 @@ public class SolutionTree
 
         if (node.IsLeaf)
         {
-            Console.WriteLine($"{padding}{node.ClassValueAnswer}");
+            Console.WriteLine(node.ClassValueAnswer);
         }
         else
         {
-            Console.WriteLine($"{padding}{node.FieldName}╗");
-            Console.Write($"{padding}Branches: ");
-            foreach (var branch in node.Children.Keys)
-            {
-                Console.Write($"{branch}, ");
-            }
-            Console.WriteLine();
+            Console.WriteLine($"{node.FieldName}╗");
+            padding = padding.PadRight(node.FieldName.Length + padding.Length) + "║";
+            Console.WriteLine(padding);
         }
 
         foreach (var branch in node.Children.Keys)
         {
-            Console.WriteLine($"{padding}{branch}:");
-            PrintTreeDfs(node.Children[branch], $"{padding}    ");
+            string outputString = $"╟══{branch}══";
+            Console.Write($"{padding}{outputString}");
+            padding = padding.PadRight(outputString.Length + padding.Length - 1);
+            
+            PrintTreeDfs(node.Children[branch], padding);
         }
     }
 }
