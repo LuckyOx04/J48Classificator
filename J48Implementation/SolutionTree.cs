@@ -87,8 +87,8 @@ public class SolutionTree
         }
         else
         {
-            Console.WriteLine($"{node.FieldName.ToUpper()}╗");
-            padding = padding.PadRight(node.FieldName.Length + padding.Length);
+            Console.WriteLine($"{node.FieldName.ToUpper()} ╗");
+            padding = padding.PadRight(node.FieldName.Length + padding.Length + 1);
             Console.WriteLine(padding + "║");
         }
 
@@ -98,7 +98,7 @@ public class SolutionTree
         {
             bool isLastBranch = keysCount == iterations++;
             string beginningSymbol = isLastBranch ? "╚" : "╟";
-            string outputString = $"{beginningSymbol}══{branch}══ᐳ ";
+            string outputString = $"{beginningSymbol}══ {branch} ══ᐳ ";
             Console.Write($"{padding}{outputString}");
             string column = isLastBranch ? " " : "║";
             string newPadding = $"{padding}{column}";

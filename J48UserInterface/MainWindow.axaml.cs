@@ -11,17 +11,20 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        Dictionary<string, List<string>> data = DataHelper.GetTrainingData("./temp-data.csv");
-        foreach (var key in data.Keys)
+        Dictionary<string, List<string>> trainingData = DataHelper.GetTrainingData("./temp-data.csv");
+        foreach (var key in trainingData.Keys)
         {
             Console.WriteLine(key);
         }
 
         string classField = "outlook";
         
-        SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(data, classField);
+        SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(trainingData, classField);
         SolutionTree solutionTree = solutionTreeBuilder.Build();
         solutionTree.PrintTreeDfs(solutionTree.Root, "");
-        
+        List<Dictionary<string, string>> testingData =  DataHelper.GetTestingData("./test-data.csv");
+        InstancesClassifier instancesClassifier = new InstancesClassifier(testingData, classField, solutionTree);
+        Console.WriteLine(instancesClassifier.ClassifyInstance(testingData[0]));
+
     }
 }

@@ -2,20 +2,26 @@ namespace J48Implementation;
 
 public class InstancesClassifier
 {
-    public List<List<string>> Data { get; set; }
+    public List<Dictionary<string, string>> TestingData { get; set; }
     private string _classField;
     public string ClassField => _classField;
     private SolutionTree _solutionTree;
 
-    public InstancesClassifier(List<List<string>> data, string classField, SolutionTree solutionTree)
+    public InstancesClassifier(List<Dictionary<string, string>> testingData, string classField, SolutionTree solutionTree)
     {
-        this.Data = data;
+        this.TestingData = testingData;
         this._classField = classField;
         this._solutionTree = solutionTree;
     }
     
-    private void ClassifyInstance(Dictionary<string, string> instance)
+    public string? ClassifyInstance(Dictionary<string, string> instance)
     {
-        
+        SolutionTree.Node currentNode = this._solutionTree.Root;
+        while (!currentNode.IsLeaf)
+        {
+            currentNode = currentNode.GetChild(instance[currentNode.FieldName]);
+        }
+
+        return currentNode.ClassValueAnswer;
     }
 }
