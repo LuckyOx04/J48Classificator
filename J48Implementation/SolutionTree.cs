@@ -73,7 +73,7 @@ public class SolutionTree
         
         this._root = new Node(fieldName);
     }
-//  ╗ ║ ╟ ═
+//  ╗ ║ ╟ ═ ╚
     public void PrintTreeDfs(Node? node, string padding)
     {
         
@@ -88,18 +88,23 @@ public class SolutionTree
         }
         else
         {
-            Console.WriteLine($"{node.FieldName}╗");
-            padding = padding.PadRight(node.FieldName.Length + padding.Length) + "║";
-            Console.WriteLine(padding);
+            Console.WriteLine($"{node.FieldName.ToUpper()}╗");
+            padding = padding.PadRight(node.FieldName.Length + padding.Length);
+            Console.WriteLine(padding + "║");
         }
 
+        int keysCount = node.Children.Keys.Count;
+        int iterations = 1;
         foreach (var branch in node.Children.Keys)
         {
-            string outputString = $"╟══{branch}══";
+            bool isLastBranch = keysCount == iterations++;
+            string beginningSymbol = isLastBranch ? "╚" : "╟";
+            string outputString = $"{beginningSymbol}══{branch}══ᐳ ";
             Console.Write($"{padding}{outputString}");
-            padding = padding.PadRight(outputString.Length + padding.Length - 1);
-            
-            PrintTreeDfs(node.Children[branch], padding);
+            string column = isLastBranch ? " " : "║";
+            string newPadding = $"{padding}{column}";
+            newPadding = newPadding.PadRight(outputString.Length + newPadding.Length - 1);
+            PrintTreeDfs(node.Children[branch], newPadding);
         }
     }
 }
