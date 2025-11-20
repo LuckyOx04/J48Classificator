@@ -22,10 +22,24 @@ public static class DataHelper
         return result;
     }
 
-    public static List<List<string>> GetTestingData(string fileName)
+    public static List<Dictionary<string, string>> GetTestingData(string fileName)
     {
-        List<List<string>> result = File.ReadAllLines(fileName).Select(line => line.Split(",")
-            .Select(value => value.ToLower()).ToList()).ToList();
+        
+        List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
+        List<string> lines = File.ReadAllLines(fileName).ToList();
+        List<string> headers = lines[0].Split(",").Select(value => value.ToLower()).ToList();
+        
+        for (int i = 1; i < lines.Count; i++)
+        {
+            Dictionary<string, string> pair = new Dictionary<string, string>();
+            string[] line = lines[i].Split(",").Select(value => value.ToLower()).ToArray();
+            for (int j = 0; j < headers.Count; j++)
+            {
+                pair.Add(headers[j], line[j]);
+            }
+            result.Add(pair);
+        }
+        
         return result;
     }
 }

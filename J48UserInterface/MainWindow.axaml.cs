@@ -17,7 +17,7 @@ public partial class MainWindow : Window
             Console.WriteLine(key);
         }
 
-        string classField = "temperature";
+        string classField = "outlook";
         
         SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(data, classField);
         SolutionTree solutionTree = solutionTreeBuilder.Build();
