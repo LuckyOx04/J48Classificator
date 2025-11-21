@@ -73,38 +73,47 @@ public class SolutionTree
         
         this._root = new Node(fieldName);
     }
-    public void PrintTreeDfs(Node? node, string padding)
+
+    public override string ToString()
     {
+        string result = "";
+        void PrintTreeDfs(Node? node, string padding)
+        {
+
+            if (node == null)
+            {
+                return;
+            }
+
+            if (node.IsLeaf)
+            {
+                result += $"{node.ClassValueAnswer}\n";
+                result += $"{padding}\n";
+            }
+            else
+            {
+                result += $"{node.FieldName.ToUpper()} ╗\n";
+                padding = padding.PadRight(node.FieldName.Length + padding.Length + 1);
+                result += $"{padding}║\n";
+            }
+
+            int keysCount = node.Children.Keys.Count;
+            int iterations = 1;
+            foreach (var branch in node.Children.Keys)
+            {
+                bool isLastBranch = keysCount == iterations++;
+                string beginningSymbol = isLastBranch ? "╚" : "╟";
+                string outputString = $"{beginningSymbol}══ {branch} ══ᐳ ";
+                result += $"{padding}{outputString}";
+                string column = isLastBranch ? " " : "║";
+                string newPadding = $"{padding}{column}";
+                newPadding = newPadding.PadRight(outputString.Length + newPadding.Length - 1);
+
+                PrintTreeDfs(node.Children[branch], newPadding);
+            }
+        }
         
-        if (node == null)
-        {
-            return;
-        }
-        if (node.IsLeaf)
-        {
-            Console.WriteLine(node.ClassValueAnswer);
-            Console.WriteLine($"{padding}");
-        }
-        else
-        {
-            Console.WriteLine($"{node.FieldName.ToUpper()} ╗");
-            padding = padding.PadRight(node.FieldName.Length + padding.Length + 1);
-            Console.WriteLine($"{padding}║");
-        }
-
-        int keysCount = node.Children.Keys.Count;
-        int iterations = 1;
-        foreach (var branch in node.Children.Keys)
-        {
-            bool isLastBranch = keysCount == iterations++;
-            string beginningSymbol = isLastBranch ? "╚" : "╟";
-            string outputString = $"{beginningSymbol}══ {branch} ══ᐳ ";
-            Console.Write($"{padding}{outputString}");
-            string column = isLastBranch ? " " : "║"; 
-            string newPadding = $"{padding}{column}";
-            newPadding = newPadding.PadRight(outputString.Length + newPadding.Length - 1);
-
-            PrintTreeDfs(node.Children[branch], newPadding);
-        }
+        PrintTreeDfs(this._root, "");
+        return result;
     }
 }

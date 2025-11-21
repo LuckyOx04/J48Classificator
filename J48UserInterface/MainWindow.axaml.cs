@@ -17,14 +17,13 @@ public partial class MainWindow : Window
             Console.WriteLine(key);
         }
 
-        string classField = "outlook";
+        string classField = "windy";
         
         SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(trainingData, classField);
         SolutionTree solutionTree = solutionTreeBuilder.Build();
-        solutionTree.PrintTreeDfs(solutionTree.Root, "");
+        Console.WriteLine(solutionTree);
         List<Dictionary<string, string>> testingData =  DataHelper.GetTestingData("./testing-data.csv");
         InstancesClassifier instancesClassifier = new InstancesClassifier(testingData, classField, solutionTree);
-        instancesClassifier.PrintConfusionMatrix();
-
+        Console.WriteLine(instancesClassifier.GetConfusionMatrixAsString());
     }
 }
