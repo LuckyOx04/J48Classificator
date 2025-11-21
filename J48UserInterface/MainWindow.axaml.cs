@@ -11,7 +11,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        Dictionary<string, List<string>> trainingData = DataHelper.GetTrainingData("./temp-data.csv");
+        Dictionary<string, List<string>> trainingData = DataHelper.GetTrainingData("./training-data.csv");
         foreach (var key in trainingData.Keys)
         {
             Console.WriteLine(key);
@@ -22,7 +22,7 @@ public partial class MainWindow : Window
         SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(trainingData, classField);
         SolutionTree solutionTree = solutionTreeBuilder.Build();
         solutionTree.PrintTreeDfs(solutionTree.Root, "");
-        List<Dictionary<string, string>> testingData =  DataHelper.GetTestingData("./test-data.csv");
+        List<Dictionary<string, string>> testingData =  DataHelper.GetTestingData("./testing-data.csv");
         InstancesClassifier instancesClassifier = new InstancesClassifier(testingData, classField, solutionTree);
         Console.WriteLine(instancesClassifier.ClassifyInstance(testingData[0]));
 
