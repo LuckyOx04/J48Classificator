@@ -2,8 +2,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="J48UserInterface.MainWindow"
-        Title="J48UserInterface">
-    Welcome to Avalonia!
+        Title="J48 Classificator">
+    <StackPanel Orientation="Vertical">
+        <TextBox x:Name="TrainingFilePath"
+                 Width="350"
+                 Height="25"
+                 Margin="0, 40, 0, 0"
+                 HorizontalAlignment="Center"
+                 Text="Select training file"/>
+        <Button x:Name="OpenTrainingFile"
+                HorizontalAlignment="Center"
+                Width="100"
+                Height="30"
+                Margin="0, 5, 0, 0"
+                Content="Open File"
+                HorizontalContentAlignment="Center"/>
+        <TextBox x:Name="TestingFilePath"
+                 Width="350"
+                 Height="25"
+                 Margin="0, 25, 0, 0"
+                 HorizontalAlignment="Center"
+                 Text="Select testing File"/>
+        <Button x:Name="OpenTestingFile"
+                Width="100"
+                Height="30"
+                Margin="0, 5, 0, 0"
+                Content="Open File"
+                HorizontalContentAlignment="Center"
+                HorizontalAlignment="Center"/>
+        <DropDownButton x:Name="SelectClassField"
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        Margin="0, 30,0, 0"/>
+        <TextBlock x:Name="ResultText"
+                   HorizontalAlignment="Center"
+                   Width="700"
+                   Height="250"
+                   Margin="0, 20, 0, 0"
+                   TextAlignment="Center"/>
+        <Button x:Name="OpenSolutionTree"
+                HorizontalAlignment="Center"
+                Content="Open Solution Tree"
+                Width="150"
+                Height="30"
+                HorizontalContentAlignment="Center"/>        
+    </StackPanel>
 </Window>

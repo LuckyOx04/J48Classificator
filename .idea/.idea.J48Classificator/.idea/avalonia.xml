@@ -4,7 +4,9 @@
     <option name="projectPerEditor">
       <map>
         <entry key="J48Classificator/MainWindow.axaml" value="J48Classificator/J48Classificator.csproj" />
+        <entry key="J48UserInterface/App.axaml" value="J48UserInterface/J48UserInterface.csproj" />
         <entry key="J48UserInterface/MainWindow.axaml" value="J48UserInterface/J48UserInterface.csproj" />
+        <entry key="J48UserInterface/SolutionTreeWindow.axaml" value="J48UserInterface/J48UserInterface.csproj" />
       </map>
     </option>
   </component>
