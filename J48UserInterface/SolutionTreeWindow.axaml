@@ -2,8 +2,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="J48UserInterface.SolutionTreeWindow"
-        Title="SolutionTreeWindow">
-    Welcome to Avalonia!
+        Title="Solution Tree">
+    <StackPanel Orientation="Vertical">
+        <TextBlock HorizontalAlignment="Center"
+                   FontSize="30"
+                   Text="Solution tree"
+                   Margin="0, 40, 0, 0"/>
+        <ScrollViewer HorizontalAlignment="Center"
+                      Width="796"
+                      Height="450">
+        <TextBlock x:Name="SolutionTreeView"
+                   HorizontalAlignment="Center"
+                   Margin="0, 20, 0, 0"
+                   Background="Aquamarine"></TextBlock>
+        </ScrollViewer>
+        <Button x:Name="CloseWindow" 
+                HorizontalAlignment="Right"
+                Content="Close"
+                Margin="0, 20, 20, 0"
+                HorizontalContentAlignment="Center"
+                Click="CloseWindow_OnClick"/>
+    </StackPanel>
 </Window>
