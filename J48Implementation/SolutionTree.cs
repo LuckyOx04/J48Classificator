@@ -80,16 +80,16 @@ public class SolutionTree
         {
             return;
         }
-
         if (node.IsLeaf)
         {
             Console.WriteLine(node.ClassValueAnswer);
+            Console.WriteLine($"{padding}");
         }
         else
         {
             Console.WriteLine($"{node.FieldName.ToUpper()} ╗");
             padding = padding.PadRight(node.FieldName.Length + padding.Length + 1);
-            Console.WriteLine(padding + "║");
+            Console.WriteLine($"{padding}║");
         }
 
         int keysCount = node.Children.Keys.Count;
@@ -100,9 +100,10 @@ public class SolutionTree
             string beginningSymbol = isLastBranch ? "╚" : "╟";
             string outputString = $"{beginningSymbol}══ {branch} ══ᐳ ";
             Console.Write($"{padding}{outputString}");
-            string column = isLastBranch ? " " : "║";
+            string column = isLastBranch ? " " : "║"; 
             string newPadding = $"{padding}{column}";
             newPadding = newPadding.PadRight(outputString.Length + newPadding.Length - 1);
+
             PrintTreeDfs(node.Children[branch], newPadding);
         }
     }

@@ -24,7 +24,7 @@ public partial class MainWindow : Window
         solutionTree.PrintTreeDfs(solutionTree.Root, "");
         List<Dictionary<string, string>> testingData =  DataHelper.GetTestingData("./testing-data.csv");
         InstancesClassifier instancesClassifier = new InstancesClassifier(testingData, classField, solutionTree);
-        Console.WriteLine(instancesClassifier.ClassifyInstance(testingData[0]));
+        instancesClassifier.PrintConfusionMatrix();
 
     }
 }
