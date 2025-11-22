@@ -2,17 +2,19 @@ namespace J48Implementation;
 
 public static class DataHelper
 {
-    public static Dictionary<string, List<string>> GetTrainingData(string fileName)
+    public static async Task<Dictionary<string, List<string>>> GetTrainingDataAsync(string fileName)
     {
         Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
 
-        List<List<string>> data = File.ReadAllLines(fileName).Select(line => line.Split(",")
-            .Select(value => value.ToLower()).ToList()).ToList();
-
+        string[] lines = await File.ReadAllLinesAsync(fileName);
+         
+        string[][] data = lines.Select(line => line.Split(",")
+            .Select(value => value.ToLower()).ToArray()).ToArray();
+        
         foreach (var header in data[0])
         {
             result[header] = new List<string>();
-            for (int j = 1; j < data.Count; j++)
+            for (int j = 1; j < data.Length; j++)
             {
                 int index = data[0].IndexOf(header);
                 result[header].Add(data[j][index]);
@@ -22,18 +24,18 @@ public static class DataHelper
         return result;
     }
 
-    public static List<Dictionary<string, string>> GetTestingData(string fileName)
+    public static async Task<List<Dictionary<string, string>>> GetTestingDataAsync(string fileName)
     {
         
         List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
-        List<string> lines = File.ReadAllLines(fileName).ToList();
-        List<string> headers = lines[0].Split(",").Select(value => value.ToLower()).ToList();
+        string[] lines = await File.ReadAllLinesAsync(fileName);
+        string[] headers = lines[0].Split(",").Select(value => value.ToLower()).ToArray();
         
-        for (int i = 1; i < lines.Count; i++)
+        for (int i = 1; i < lines.Length; i++)
         {
             Dictionary<string, string> pair = new Dictionary<string, string>();
             string[] line = lines[i].Split(",").Select(value => value.ToLower()).ToArray();
-            for (int j = 0; j < headers.Count; j++)
+            for (int j = 0; j < headers.Length; j++)
             {
                 pair.Add(headers[j], line[j]);
             }
