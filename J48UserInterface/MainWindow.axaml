@@ -2,9 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:self="clr-namespace:J48UserInterface"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="J48UserInterface.MainWindow"
-        Title="J48 Classificator">
+        Title="J48 Classificator"
+        x:DataType="self:MainWindow">
     <ScrollViewer>
         <StackPanel Orientation="Vertical">
             <TextBlock HorizontalAlignment="Center"
@@ -23,12 +25,12 @@
                      HorizontalAlignment="Center"
                      Text="Select testing File..."
                      GotFocus="TestingFilePath_OnGotFocus"/>
-            <DropDownButton x:Name="SelectClassField"
+            <ComboBox x:Name="SelectClassField"
                             Width="200"
                             HorizontalAlignment="Center"
                             Margin="0, 30,0, 0"
                             IsEnabled="False"
-                            Click="SelectClassField_OnClick"/>
+                            SelectionChanged="SelectClassField_OnSelectionChanged"/>
             <Button x:Name="Classify"
                     Content="Classify"
                     HorizontalAlignment="Center"
@@ -37,16 +39,18 @@
                     IsEnabled="False"
                     Click="Classify_OnClick"></Button>
             <ScrollViewer HorizontalAlignment="Center"
-                          Margin="0, 20, 0, 0">
+                          BorderBrush="Black"
+                          BorderThickness="5"
+                          Margin="0, 30, 0, 0">
                 <TextBlock x:Name="ResultText"
                            HorizontalAlignment="Center"
-                           TextAlignment="Center"
-                           Background="Aquamarine"/>
+                           TextAlignment="Left"
+                           FontFamily="monospace"/>
             </ScrollViewer>
             <Button x:Name="OpenSolutionTree"
                     HorizontalAlignment="Center"
                     Content="Open Solution Tree"
-                    Margin="0, 10, 0, 0"
+                    Margin="0, 20, 0, 0"
                     HorizontalContentAlignment="Center"
                     IsEnabled="False"
                     Click="OpenSolutionTree_OnClick"/>        

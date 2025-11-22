@@ -12,16 +12,19 @@
                    Margin="0, 40, 0, 0"/>
         <ScrollViewer HorizontalAlignment="Center"
                       Width="796"
-                      Height="450">
+                      Height="450"
+                      Margin="0, 30, 0, 0"
+                      BorderBrush="Black"
+                      BorderThickness="5">
         <TextBlock x:Name="SolutionTreeView"
                    HorizontalAlignment="Center"
-                   Margin="0, 20, 0, 0"
-                   Background="Aquamarine"></TextBlock>
+                   TextAlignment="Left"
+                   FontFamily="monospace"/>
         </ScrollViewer>
         <Button x:Name="CloseWindow" 
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Center"
                 Content="Close"
-                Margin="0, 20, 20, 0"
+                Margin="0, 30, 20, 0"
                 HorizontalContentAlignment="Center"
                 Click="CloseWindow_OnClick"/>
     </StackPanel>
