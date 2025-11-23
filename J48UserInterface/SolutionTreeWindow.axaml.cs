@@ -13,7 +13,6 @@ public partial class SolutionTreeWindow : Window
         InitializeComponent();
 
         SolutionTreeView.Text = solutionTree?.ToString();
-        Console.WriteLine(solutionTree);
     }
 
     private void CloseWindow_OnClick(object? sender, RoutedEventArgs e)
