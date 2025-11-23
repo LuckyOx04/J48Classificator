@@ -8,11 +8,11 @@ namespace J48UserInterface;
 
 public partial class SolutionTreeWindow : Window
 {
-    public SolutionTreeWindow(SolutionTree solutionTree)
+    public SolutionTreeWindow(SolutionTree? solutionTree)
     {
         InitializeComponent();
 
-        SolutionTreeView.Text = solutionTree.ToString();
+        SolutionTreeView.Text = solutionTree?.ToString();
         Console.WriteLine(solutionTree);
     }
 

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -13,37 +11,22 @@ namespace J48UserInterface;
 
 public partial class MainWindow : Window
 {
-    private Dictionary<string, List<string>> _trainingData;
-    private List<Dictionary<string, string>> _testingData;
-    private string _classField;
-    private SolutionTree _solutionTree;
-    private int _fieldsSelected = 0;
+    private Dictionary<string, List<string>>? _trainingData;
+    private List<Dictionary<string, string>>? _testingData;
+    private string? _classField;
+    private SolutionTree? _solutionTree;
+    private int _fieldsSelected;
     
     public MainWindow()
     {
         InitializeComponent();
-
-        // Dictionary<string, List<string>> trainingData = DataHelper.GetTrainingDataAsync("./training-data.csv").Result;
-        // foreach (var key in trainingData.Keys)
-        // {
-        //     Console.WriteLine(key);
-        // }
-        //
-        // string classField = "windy";
-        //
-        // SolutionTreeBuilder solutionTreeBuilder = new SolutionTreeBuilder(trainingData, classField);
-        // _solutionTree solutionTree = solutionTreeBuilder.Build();
-        // Console.WriteLine(solutionTree);
-        // List<Dictionary<string, string>> testingData =  DataHelper.GetTestingDataAsync("./testing-data.csv").Result;
-        // InstancesClassifier instancesClassifier = new InstancesClassifier(testingData, classField, solutionTree);
-        // Console.WriteLine(instancesClassifier.GetConfusionMatrixAsString());
     }
 
     private async void TrainingFilePath_OnGotFocus(object? sender, GotFocusEventArgs e)
     {
         _fieldsSelected = _fieldsSelected != 0 ? _fieldsSelected-- : 0;
         
-        var topLevel = TopLevel.GetTopLevel(this);
+        var topLevel = GetTopLevel(this);
         
         if (topLevel == null)
         {
@@ -65,14 +48,21 @@ public partial class MainWindow : Window
 
         if (files.Count >= 1)
         {
-            string uri = files[0].TryGetLocalPath();
-            TrainingFilePath.Text = uri;
-            this._trainingData = await DataHelper.GetTrainingDataAsync(uri);
-            SelectClassField.ItemsSource = _trainingData.Keys;
-            SelectClassField.IsEnabled = true;
-            if (++_fieldsSelected == 3)
+            string? uri = files[0].TryGetLocalPath();
+            if (uri != null)
             {
-                Classify.IsEnabled = true;
+                TrainingFilePath.Text = uri;
+                _trainingData = await DataHelper.GetTrainingDataAsync(uri);
+                SelectClassField.ItemsSource = _trainingData.Keys;
+                SelectClassField.IsEnabled = true;
+                if (++_fieldsSelected == 3)
+                {
+                    Classify.IsEnabled = true;
+                }
+            }
+            else
+            {
+                TrainingFilePath.Text = "Training file uri not found!";
             }
         }
     }
@@ -103,12 +93,19 @@ public partial class MainWindow : Window
 
         if (files.Count >= 1)
         {
-            string uri = files[0].TryGetLocalPath();
-            TestingFilePath.Text = uri;
-            this._testingData = await DataHelper.GetTestingDataAsync(uri);
-            if (++_fieldsSelected == 3)
+            string? uri = files[0].TryGetLocalPath();
+            if (uri != null)
             {
-                Classify.IsEnabled = true;
+                TestingFilePath.Text = uri;
+                this._testingData = await DataHelper.GetTestingDataAsync(uri);
+                if (++_fieldsSelected == 3)
+                {
+                    Classify.IsEnabled = true;
+                }
+            }
+            else
+            {
+                TrainingFilePath.Text = "Training file uri not found!";
             }
         }
     }
@@ -122,12 +119,19 @@ public partial class MainWindow : Window
 
     private async void Classify_OnClick(object? sender, RoutedEventArgs e)
     {
-        this._solutionTree = await Task.Run(() => new SolutionTreeBuilder(this._trainingData, this._classField)
-            .Build());
-        string classificationResult = await Task.Run(() => new InstancesClassifier(this._testingData,
-            this._classField, _solutionTree).GetConfusionMatrixAsString());
-        ResultText.Text = classificationResult;
-        OpenSolutionTree.IsEnabled = true;
+        if (_classField != null && _trainingData != null && _testingData != null)
+        {
+            _solutionTree = await Task.Run(() => new SolutionTreeBuilder(_trainingData, _classField)
+                .Build());
+            string classificationResult = await Task.Run(() => new InstancesClassifier(_testingData,
+                _classField, _solutionTree).GetConfusionMatrixAsString());
+            ResultText.Text = classificationResult;
+            OpenSolutionTree.IsEnabled = true;
+        }
+        else
+        {
+            ResultText.Text = "Training data, testing data or class field is not set!";
+        }
     }
 
     private void SelectClassField_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
