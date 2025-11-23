@@ -49,15 +49,20 @@ public class SolutionTree
 
         public Node GetChild(string branchName)
         {
-            Node? result = null;
+            Node? result;
             if (this.Children.TryGetValue(branchName, out result))
             {
                 return result;
             }
             else
             {
-                throw new ArgumentException("branchName does not exist");
+                throw new ArgumentException($"Branch name {branchName} does not exist");
             }
+        }
+        
+        public bool HasBranch(string branchName)
+        {
+            return this.Children.ContainsKey(branchName);
         }
     }
     

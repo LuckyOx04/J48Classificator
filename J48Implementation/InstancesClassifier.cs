@@ -19,7 +19,11 @@ public class InstancesClassifier
         SolutionTree.Node currentNode = this._solutionTree.Root;
         while (!currentNode.IsLeaf)
         {
-            currentNode = currentNode.GetChild(instance[currentNode.FieldName]);
+            string branchName = instance[currentNode.FieldName];
+            if (currentNode.HasBranch(branchName))
+            {
+                currentNode = currentNode.GetChild(branchName);
+            }
         }
 
         return currentNode.ClassValueAnswer;
