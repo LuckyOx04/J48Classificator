@@ -7,14 +7,13 @@ public class FieldEntropyAlgorithm
 
     public Dictionary<string, List<string>> TrainingData
     {
-        get => _trainingData;
         set => _trainingData = value;
     }
 
     public FieldEntropyAlgorithm(Dictionary<string, List<string>> trainingData, string classField)
     {
-        this._classField =  classField;
-        this._trainingData = trainingData;
+        _classField =  classField;
+        _trainingData = trainingData;
     }
     
     private double Entropy(params double[] values)
@@ -76,7 +75,7 @@ public class FieldEntropyAlgorithm
     private double GetEntropyForListOfValues(List<string> values)
     {
         double[] entropyInput = GetEntropyInput(values);
-        return Entropy(entropyInput.ToArray());
+        return Entropy(entropyInput);
     }
 
     public double GetInformationGainForField(string field)

@@ -5,9 +5,7 @@ public static class DataHelper
     public static async Task<Dictionary<string, List<string>>> GetTrainingDataAsync(string fileName)
     {
         Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
-
         string[] lines = await File.ReadAllLinesAsync(fileName);
-         
         string[][] data = lines.Select(line => line.Split(",")
             .Select(value => value.ToLower()).ToArray()).ToArray();
         

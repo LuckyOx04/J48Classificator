@@ -8,9 +8,9 @@ public class SolutionTreeBuilder
 
     public SolutionTreeBuilder(Dictionary<string, List<string>> data, string classField)
     {
-        this._data = data;
-        this._classField = classField;
-        this._fieldEntropyAlgorithm = new FieldEntropyAlgorithm(data, classField);
+        _data = data;
+        _classField = classField;
+        _fieldEntropyAlgorithm = new FieldEntropyAlgorithm(data, classField);
     }
     
     private string GetMaxFieldEntropy(Dictionary<string, List<string>> data)

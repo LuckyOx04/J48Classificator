@@ -13,17 +13,10 @@ public class SolutionTree
 
         public Node(string fieldName)
         {
-            this.Children = new Dictionary<string, Node>();
-            this.ClassValueAnswer = string.Empty;
-            this.FieldName = fieldName;
-            this._hasParent = false;
-        }
-
-        public Node(string fieldName, string classValueAnswer)
-        {
-            this.Children = new Dictionary<string, Node>();
-            this.ClassValueAnswer = classValueAnswer;
-            this.FieldName = fieldName;
+            Children = new Dictionary<string, Node>();
+            ClassValueAnswer = string.Empty;
+            FieldName = fieldName;
+            _hasParent = false;
         }
 
         public void AddChild(string branchName, Node child)
@@ -37,9 +30,9 @@ public class SolutionTree
             {
                 throw new ArgumentException("This node already has a parent");
             } 
-            if (this.Children.TryAdd(branchName, child))
+            if (Children.TryAdd(branchName, child))
             {
-                this._hasParent = true;
+                _hasParent = true;
             }
             else
             {
@@ -50,7 +43,7 @@ public class SolutionTree
         public Node GetChild(string branchName)
         {
             Node? result;
-            if (this.Children.TryGetValue(branchName, out result))
+            if (Children.TryGetValue(branchName, out result))
             {
                 return result;
             }
@@ -62,12 +55,11 @@ public class SolutionTree
         
         public bool HasBranch(string branchName)
         {
-            return this.Children.ContainsKey(branchName);
+            return Children.ContainsKey(branchName);
         }
     }
     
-    private readonly Node _root;
-    public Node Root => _root;
+    public Node Root { get; private set; }
     
     public SolutionTree(string fieldName)
     {
@@ -76,7 +68,7 @@ public class SolutionTree
             throw new ArgumentNullException(nameof(fieldName), "Field name cannot be null or empty");
         }
         
-        this._root = new Node(fieldName);
+        Root = new Node(fieldName);
     }
 
     public override string ToString()
@@ -118,7 +110,7 @@ public class SolutionTree
             }
         }
         
-        PrintTreeDfs(this._root, "");
+        PrintTreeDfs(Root, "");
         return result;
     }
 }

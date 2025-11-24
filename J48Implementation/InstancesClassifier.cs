@@ -9,14 +9,14 @@ public class InstancesClassifier
 
     public InstancesClassifier(List<Dictionary<string, string>> testingData, string classField, SolutionTree solutionTree)
     {
-        this.TestingData = testingData;
-        this._classField = classField;
-        this._solutionTree = solutionTree;
+        TestingData = testingData;
+        _classField = classField;
+        _solutionTree = solutionTree;
     }
     
     private string? ClassifyInstance(Dictionary<string, string> instance)
     {
-        SolutionTree.Node currentNode = this._solutionTree.Root;
+        SolutionTree.Node currentNode = _solutionTree.Root;
         while (!currentNode.IsLeaf)
         {
             string branchName = instance[currentNode.FieldName];
