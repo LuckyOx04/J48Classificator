@@ -6,8 +6,8 @@ public class SolutionTree
     {
         public string FieldName { get; set; }
         public string? ClassValueAnswer { get; set; }
-        public Dictionary<string, Node> Children { get; set; }
-        private bool _hasParent;
+        public Dictionary<string, Node> Children { get; }
+        private bool HasParent { get; set; }
         
         public bool IsLeaf => Children.Count == 0;
 
@@ -16,7 +16,7 @@ public class SolutionTree
             Children = new Dictionary<string, Node>();
             ClassValueAnswer = string.Empty;
             FieldName = fieldName;
-            _hasParent = false;
+            HasParent = false;
         }
 
         public void AddChild(string branchName, Node child)
@@ -26,13 +26,13 @@ public class SolutionTree
                 throw new ArgumentNullException(nameof(child), "Child cannot be null");
             }
 
-            if (child._hasParent)
+            if (child.HasParent)
             {
                 throw new ArgumentException("This node already has a parent");
             } 
             if (Children.TryAdd(branchName, child))
             {
-                _hasParent = true;
+                child.HasParent = true;
             }
             else
             {
@@ -59,7 +59,7 @@ public class SolutionTree
         }
     }
     
-    public Node Root { get; private set; }
+    public Node Root { get; }
     
     public SolutionTree(string fieldName)
     {

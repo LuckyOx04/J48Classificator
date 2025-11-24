@@ -13,22 +13,22 @@ public class SolutionTreeBuilder
         _fieldEntropyAlgorithm = new FieldEntropyAlgorithm(data, classField);
     }
     
-    private string GetMaxFieldEntropy(Dictionary<string, List<string>> data)
+    private string GetMaxFieldInformationGain(Dictionary<string, List<string>> data)
     {
-        double maxEntropy = Double.MinValue;
-        string maxEntropyField = "";
+        double maxInformationGain = Double.MinValue;
+        string maxInformationGainField = "";
         _fieldEntropyAlgorithm.TrainingData = data;
         foreach (var key in data.Keys.Where(key => key != _classField))
         {
             double currentEntropy = _fieldEntropyAlgorithm.GetInformationGainForField(key);
-            if (currentEntropy > maxEntropy)
+            if (currentEntropy > maxInformationGain)
             {
-                maxEntropy = currentEntropy;
-                maxEntropyField = key;
+                maxInformationGain = currentEntropy;
+                maxInformationGainField = key;
             }
         }
         
-        return maxEntropyField;
+        return maxInformationGainField;
     }
     
     private Dictionary<string, List<int>> GetValuesPositions(List<string> values)
@@ -137,7 +137,7 @@ public class SolutionTreeBuilder
                 continue;
             }
             
-            string maxEntropyField = GetMaxFieldEntropy(newData);
+            string maxEntropyField = GetMaxFieldInformationGain(newData);
             
             SolutionTree.Node newNode = new SolutionTree.Node(maxEntropyField);
             node.AddChild(key, newNode);
@@ -147,7 +147,7 @@ public class SolutionTreeBuilder
     
     private SolutionTree GetInitialTree()
     {
-        string maxEntropyField = GetMaxFieldEntropy(_data);
+        string maxEntropyField = GetMaxFieldInformationGain(_data);
         SolutionTree solutionTree = new SolutionTree(maxEntropyField);
         return solutionTree;
     }

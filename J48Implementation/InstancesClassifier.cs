@@ -2,14 +2,13 @@ namespace J48Implementation;
 
 public class InstancesClassifier
 {
-    public List<Dictionary<string, string>> TestingData { get; set; }
-    private string _classField;
-    public string ClassField => _classField;
-    private SolutionTree _solutionTree;
+    private readonly List<Dictionary<string, string>> _testingData;
+    private readonly string _classField;
+    private readonly SolutionTree _solutionTree;
 
     public InstancesClassifier(List<Dictionary<string, string>> testingData, string classField, SolutionTree solutionTree)
     {
-        TestingData = testingData;
+        _testingData = testingData;
         _classField = classField;
         _solutionTree = solutionTree;
     }
@@ -32,7 +31,7 @@ public class InstancesClassifier
     private List<string> GetPureClassResults()
     {
         List<string> result = new List<string>();
-        foreach (var instance in TestingData)
+        foreach (var instance in _testingData)
         {
             result.Add(instance[_classField]);
         }
@@ -43,7 +42,7 @@ public class InstancesClassifier
     private List<string> GetClassifiedClassResults()
     {
         List<string> result = new List<string>();
-        foreach (var instance in TestingData)
+        foreach (var instance in _testingData)
         {
             string? classificationResult = ClassifyInstance(instance);
             if (classificationResult != null)
@@ -55,27 +54,13 @@ public class InstancesClassifier
         return result;
     }
 
-    private List<string> GetDistinctValues(List<string> values)
-    {
-        List<string> result = new List<string>();
-        foreach (var value in values)
-        {
-            if (!result.Contains(value))
-            {
-                result.Add(value);
-            }
-        }
-        
-        return result;
-    }
-
     private Dictionary<string, Dictionary<string, int>> GetInitialConfusionMatrix(List<string> classificationResults,
         List<string> pureResults)
     {
         Dictionary<string, Dictionary<string, int>> confusionMatrix = new Dictionary<string, Dictionary<string, int>>();
-        List<string> pureDistinctValues = GetDistinctValues(pureResults);
-        List<string> classificationDistinctValues = GetDistinctValues(classificationResults);
-        List<string> distinctValues = classificationDistinctValues.Union(pureDistinctValues).ToList();
+        pureResults = pureResults.Distinct().ToList();
+        classificationResults = classificationResults.Distinct().ToList();
+        List<string> distinctValues = classificationResults.Union(pureResults).ToList();
         foreach (var row in distinctValues)
         {
             confusionMatrix.Add(row, new Dictionary<string, int>());
